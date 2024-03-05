@@ -22,7 +22,8 @@ import javafx.stage.Stage;
 import org.panda_lang.lily.plugin.PluginFinder;
 import org.panda_lang.lily.plugin.PluginManager;
 import org.panda_lang.lily.ui.LilyUI;
-import org.panda_lang.panda.Panda;
+import panda.interpreter.Panda;
+import panda.interpreter.PandaFactory;
 
 public class Lily extends Application {
 
@@ -37,7 +38,7 @@ public class Lily extends Application {
     public Lily() {
         instance = this;
 
-        this.panda = new Panda();
+        this.panda = new PandaFactory().createPanda();
         this.pluginManager = new PluginManager(this);
         this.composition = new LilyComposition(this);
     }

@@ -1,49 +1,41 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
-  ~ Copyright (c) 2015-2018 Dzikoysk
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~ You may obtain a copy of the License at
-  ~
-  ~     http://www.apache.org/licenses/LICENSE-2.0
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  -->
-
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">    <modelVersion>4.0.0</modelVersion>
     <groupId>org.panda-lang</groupId>
     <artifactId>lily</artifactId>
-    <version>2018.4.15</version>
+    <version>2024.3.6</version>
     <packaging>jar</packaging>
 
     <name>Lily</name>
     <description>Lily the Panda IDE</description>
-    <url>https://panda-lang.org/</url>
+    <url>https://panda-lang.org</url>
 
     <scm>
-        <connection>scm:git:https://github.com/Panda-Programming-Language/Lily.git</connection>
-        <developerConnection>scm:git:https://github.com/Panda-Programming-Language/Lily.git</developerConnection>
-        <url>https://github.com/Panda-Programming-Language/Lily</url>
+        <connection>scm:git:https://github.com/panda-lang/lily.git</connection>
+        <developerConnection>scm:git:https://github.com/panda-lang/lily.git</developerConnection>
+        <url>https://github.com/panda-lang/lily</url>
     </scm>
 
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
             <distribution>repo</distribution>
         </license>
     </licenses>
 
+    <repositories>
+        <repository>
+            <id>central</id>
+            <url>https://repo.maven.apache.org/maven2</url>
+        </repository>
+        <repository>
+            <id>panda-repository</id>
+            <url>https://maven.reposilite.com/releases</url>
+        </repository>
+    </repositories>
+
     <properties>
-        <java.version>1.8</java.version>
-        <java.languageLevel>1.8</java.languageLevel>
+        <java.version>11</java.version>
+        <java.languageLevel>11</java.languageLevel>
         <lily.version>${project.version}</lily.version>
     </properties>
 
@@ -51,7 +43,7 @@
         <dependency>
             <groupId>org.panda-lang</groupId>
             <artifactId>panda</artifactId>
-            <version>indev-0.6.5</version>
+            <version>0.5.2-alpha</version>
         </dependency>
         <dependency>
             <groupId>org.reflections</groupId>
@@ -73,21 +65,40 @@
             <artifactId>org.eclipse.jgit</artifactId>
             <version>4.4.1.201607150455-r</version>
         </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx</artifactId>
+            <version>11.0.2</version>
+            <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>11.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-web</artifactId>
+            <version>11.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>11.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
+            <version>11.0.2</version>
+        </dependency>
     </dependencies>
-
-    <repositories>
-        <repository>
-            <id>panda-repo</id>
-            <url>https://repo.panda-lang.org/</url>
-        </repository>
-    </repositories>
 
     <build>
         <defaultGoal>clean install</defaultGoal>
         <plugins>
             <plugin>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>2.4.1</version>
+                <version>3.5.2</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -99,7 +110,7 @@
             </plugin>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.3</version>
+                <version>3.12.1</version>
                 <dependencies>
                     <dependency>
                         <groupId>org.codehaus.plexus</groupId>
@@ -115,7 +126,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>2.6</version>
+                <version>3.3.0</version>
                 <configuration>
                     <archive>
                         <manifestEntries>
@@ -126,6 +137,14 @@
                             <mainClass>org.panda_lang.lily.Lily</mainClass>
                         </manifest>
                     </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.8</version>
+                <configuration>
+                    <mainClass>org.panda_lang.lily.Lily</mainClass>
                 </configuration>
             </plugin>
         </plugins>

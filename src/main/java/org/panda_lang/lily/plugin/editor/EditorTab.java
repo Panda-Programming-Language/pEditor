@@ -30,11 +30,12 @@ import javafx.scene.web.WebView;
 import org.panda_lang.lily.Lily;
 import org.panda_lang.lily.util.FXMLLoaderUtils;
 import org.panda_lang.lily.util.ResourcesBuilder;
-import org.panda_lang.panda.utilities.commons.io.FileUtils;
-import org.panda_lang.panda.utilities.commons.io.IOUtils;
-import org.panda_lang.panda.utilities.commons.objects.StringUtils;
+import panda.utilities.FileUtils;
+import panda.utilities.IOUtils;
+import panda.utilities.StringUtils;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -49,7 +50,8 @@ public class EditorTab extends Tab implements Initializable {
         resourcesBuilder.importScript("/libs/codemirror/script.min.js");
         resourcesBuilder.importScript("/libs/codemirror/panda.min.js");
         template = IOUtils.convertStreamToString(Lily.class.getResourceAsStream("/plugins/editor/editor.html"))
-                .replace("{imports}", resourcesBuilder.toString());
+                .map(it -> it.replace("{imports}", resourcesBuilder.toString()))
+                .get();
     }
 
     @FXML private WebView webView;
@@ -76,7 +78,7 @@ public class EditorTab extends Tab implements Initializable {
         GridPane.setVgrow(webView, Priority.ALWAYS);
     }
 
-    public void run(TabPane pane, File file) {
+    public void run(TabPane pane, File file) throws IOException {
         if (file == null) {
             return;
         }
@@ -107,8 +109,12 @@ public class EditorTab extends Tab implements Initializable {
             File f = (File) webView.getUserData();
             String src = (String) webEngine.executeScript("editor.getValue()");
             // StringUtils.replace(src, "\t", "    ")
+          try {
             FileUtils.overrideFile(f, src);
-            setText(title);
+          } catch (IOException e) {
+            throw new RuntimeException(e);
+          }
+          setText(title);
             changed = false;
         });
 
